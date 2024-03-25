@@ -1,0 +1,36 @@
+{
+  "name": "@darwinia/ormpipe-trial",
+  "version": "0.1.2",
+  "description": "ormpipe relayer relay",
+  "main": "dist/index.js",
+  "author": "Darwinia Netowrk",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b && shx cp -r ../../assets/abis dist/",
+    "start": "npm run build && cd dist && node index.js",
+    "lint": "eslint . --ext .ts --fix",
+    "posttest": "yarn lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage"
+  },
+  "dependencies": {
+    "chalk": "^4",
+    "ethers": "^6"
+  },
+  "devDependencies": {
+    "@types/jest": "^29",
+    "@types/node": "^20",
+    "@typescript-eslint/eslint-plugin": "^5",
+    "@typescript-eslint/parser": "^5",
+    "eslint": "^8",
+    "jest": "^29",
+    "shx": "^0.3",
+    "ts-node": "^10",
+    "tslib": "^2",
+    "typescript": "^5"
+  }
+}
