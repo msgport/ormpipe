@@ -306,6 +306,11 @@ export class OracleRelay extends CommonRelay<OracleRelayLifecycle> {
     );
 
     const signatureOwners = await this.targetMultisigContract.getOwners();
+    logger.info(
+      "queried multisig contract owners %s",
+      signatureOwners.join(','),
+      super.meta("ormpipe-relay-oracle", ["oracle:sign"])
+    );
 
     // check sign progress
     const lastSignature = await this._lastSignature(
