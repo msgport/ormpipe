@@ -9,6 +9,9 @@ import {
   OrmpProtocolMessage,
   RelayerContractClient,
 } from "./client/contract_relayer";
+import {
+  setTimeout,
+} from 'timers/promises';
 import chalk = require("chalk");
 
 interface RelayerRelayOptions {
@@ -118,7 +121,16 @@ export class RelayerRelay extends CommonRelay<RelayerRelayLifecycle> {
     let lastAssignedMessageAcceptedResult:
       | LastAssignedMessageAccepted
       | undefined;
+    let times = 0;
     while (true) {
+      times += 1;
+      if (times > 5) {
+        logger.warn(
+          `reach max relay times to submit relayer.relay`,
+          super.meta("ormpipe-relay", ["relayer"])
+        );
+        break;
+      }
       const fullOptions = {
         ...options,
         lastImportedMessageHash,
@@ -146,6 +158,11 @@ export class RelayerRelay extends CommonRelay<RelayerRelayLifecycle> {
           `try next message accepted`,
           super.meta("ormpipe-relay", ["relayer"])
         );
+        if (options.targetChainId == 1) {
+          await setTimeout(1000 * 60);
+        } else {
+          await setTimeout(1000 * 40);
+        }
         continue;
       }
       if (result == "success") {
